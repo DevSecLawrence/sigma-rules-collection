@@ -75,3 +75,41 @@ tags:
  
 ---
  
+### New Local Admin Account Created
+**File:** `new_local_admin.yml`
+**Detects:** Creation of a new local administrator account — common persistence technique
+**MITRE:** T1136.001 — Create Account: Local Account
+**False positives:** Legitimate IT provisioning
+ 
+```yaml
+title: New Local Admin Account Created
+status: experimental
+description: Detects creation of a new local administrator account
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID: 4720
+    filter:
+        SubjectUserName|endswith: '$'
+    condition: selection and not filter
+falsepositives:
+    - Legitimate user provisioning by IT
+level: medium
+tags:
+    - attack.persistence
+    - attack.t1136.001
+```
+ 
+---
+ 
+## Conversion
+ 
+These rules were converted to Splunk SPL and Elastic KQL using `sigma-cli`. Converted queries are in the `converted/` folder.
+ 
+---
+ 
+## Part of
+ 
+[SOC Analyst Journey — 180-day roadmap](https://github.com/DevSecLawrence/soc-analyst-journey)
